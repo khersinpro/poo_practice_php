@@ -1,0 +1,13 @@
+<?xml version='1.0' ?>
+<!-- ./vendor/bin/phpcs -->
+<ruleset name="POO_PRATIQUE_PHP">
+    <description>Mes règles</description>
+
+    <arg name="colors"/>
+    <arg value="p" />
+
+    <file>src</file>
+    <file>public/index.php</file>
+
+    <rule ref="PSR2"></rule>
+</ruleset>    
