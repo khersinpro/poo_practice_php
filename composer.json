@@ -2,7 +2,8 @@
     "name": "kevin/poo_pratique_php",
     "autoload": {
         "psr-4": {
-            "Framework\\": "src/Framework"
+            "Framework\\": "src/Framework",
+            "App\\": "src"
         }
     },
     "authors": [
