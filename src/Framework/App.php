@@ -40,10 +40,23 @@ class App
             ]);
         }
 
-        if ($uri === '/blog') {
-            return new Response(200, [], '<h1>Bienvenue sur le blog</h1>');
+        $route = $this->router->match($request);
+
+        if (!$route) {
+            return new Response(404, [], '<h1>Erreur 404</h1>');
+        }
+
+        /**
+         * TODO => ajouter la gestions des params d'uri
+         */
+        $reponse = call_user_func($route->getCallback(), $request);
+
+        
+        if ($reponse) {
+            return new Response(200, [], $reponse);
         }
 
         return new Response(404, [], '<h1>Erreur 404</h1>');
+        
     }
 }

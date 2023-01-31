@@ -13,11 +13,12 @@ class BlogController
      */
     public function __construct(Router $router)
     {
-        $router->get('/blog', [$this, 'index'], 'blog');
+        $router->get('/blog', [$this, 'index'], 'blog', ['GET']);
+        $router->get('/blog/[slug: [a-z\-]+]/[id: /d+]/[text: [a-z]+]', [$this, 'index'], 'blog', ['GET']);
     }
 
-    public function index(ServerRequestInterface $request)
+    public function index(ServerRequestInterface $request, int $id)
     {
-        return 'Bienvenu sur mon blog';
+        return 'Bienvenu sur mon blog'.$id.'id';
     }
 }
