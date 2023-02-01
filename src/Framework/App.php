@@ -2,6 +2,7 @@
 
 namespace Framework;
 
+use Exception;
 use GuzzleHttp\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -46,17 +47,15 @@ class App
             return new Response(404, [], '<h1>Erreur 404</h1>');
         }
 
-        /**
-         * TODO => ajouter la gestions des params d'uri
-         */
+        $request = $request->withQueryParams($route->getParams());
         $reponse = call_user_func($route->getCallback(), $request);
-
         
-        if ($reponse) {
+        if (is_string($reponse)) {
             return new Response(200, [], $reponse);
+        } else if ($reponse instanceof ResponseInterface) {
+            return new Response(200, [], $reponse);
+        } else {
+            throw new Exception('Find no response !');
         }
-
-        return new Response(404, [], '<h1>Erreur 404</h1>');
-        
     }
 }

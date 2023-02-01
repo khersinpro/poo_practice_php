@@ -21,7 +21,7 @@ class Route
     /**
      * @var array Tableau de params de la route
      */
-    private array $parameters;
+    private array $parameters = [];
     
     /**
      * @var array Tableau de params de la route
@@ -67,8 +67,7 @@ class Route
     {
         return $this->name;
     }
-    
-    
+     
     /**
      * Récupére les types de requetes http autorisée de la route
      * @return string[] Retourne un tableau de type de requetes http 
@@ -78,13 +77,22 @@ class Route
         return $this->methods;
     }
 
-    // /**
-    //  * Récupére les params de la route
-    //  * @return string[] Retourn un tableau de string / vide si aucun params
-    //  */
-    // public function getParams(): array
-    // {
-    //     return $this->parameters;
-    // }
+    /**
+     * Retourne les params de la route
+     * @return string[] Retourne un tableau de string / vide si aucun params
+     */
+    public function getParams(): array
+    {
+        return $this->parameters;
+    }
+
+    /**
+     * Set les params de la route
+     * @param string[] $parameters Retourne un tableau de string / vide si aucun params
+     */
+    public function setParams(array $parameters = []): void
+    {
+        $this->parameters = $parameters;
+    }
 
 }

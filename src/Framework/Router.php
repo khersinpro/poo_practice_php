@@ -3,6 +3,7 @@
 namespace Framework;
 
 use Framework\Router\Route;
+use GuzzleHttp\Psr7\Request;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -44,27 +45,38 @@ class Router
     {
         $uri = $request->getUri()->getPath();
         $method = $request->getMethod();
-        $match = null;
+        $matchedRoute = null;
 
         foreach ($this->routes as $route) {
-            /**
-             * TODO => Créer la logique de controle des routes 
-             * $matchedRoute = null;
-             * foreach($this->routes as $route) {
-             * $regex = $this->routeRegexGenerator();
-             * 
-             *  preg_match($regex, $route->getPath(), $matches) === 1 ? $matcherRoute = $route ? ''; 
-             * }
-             */
-            $regex = $this->routeRegexGenerator();
-            dd($regex, preg_match($regex, '/blog', $matches), $matches);
+            $routePath = $route->getPath();
 
-            if ($route->getPath() === $uri && in_array($method, $route->getMethods(), true )) {
-                $match = $route; 
+            // Controle si route sans params et si les url concorde
+            if (!str_contains($routePath, '[') && $routePath === $uri) {
+                return $matchedRoute = $route;
+            } 
+            
+            // Route complexe avec params => Controle si l'url match avec la regex de la route
+            if (str_contains($routePath, '[')) {
+                $regex = $this->routeRegexGenerator($routePath);
+
+                if (preg_match($regex, $request->getUri()->getPath(), $matches) === 1) {
+
+                    // Récupération des params de la route
+                    $routeParams =  array_reduce(array_keys($matches), function($routeParams, $key ) use ($matches) {
+                        if (is_string($key)) {
+                            $routeParams[$key] = $matches[$key];
+                        }
+                        return $routeParams;
+                    }, []);
+
+                    $route->setParams($routeParams);
+
+                    $matchedRoute = $route;
+                }
             }
         }
 
-        return $match;
+        return $matchedRoute;
     }
 
     /**
@@ -82,44 +94,25 @@ class Router
      * @param $route
      * @return string
      */
-    protected function routeRegexGenerator($route = '/blog')
+    protected function routeRegexGenerator(string $route): string
     {
+        if ( preg_match_all('`(/|\.|)\[([^:\]]*+)(?::([^:\]]*+))?\](\?|)`', $route, $matches, PREG_SET_ORDER)) {
+            $matchTypes = $this->matchTypes;
+    
+            foreach ($matches as $match) {
+                list($block, $pre, $type, $param) = $match;
+    
+                if (isset($matchTypes[$type])) {
+                    $type = $matchTypes[$type];
+                }
 
-        /**
-         * Finaliser la fonction pour qu'elle ne se lance que si le preg_match all retourne true
-         */
-        preg_match_all('`(/|\.|)\[([^:\]]*+)(?::([^:\]]*+))?\](\?|)`', $route, $matches, PREG_SET_ORDER);
-
-        $matchTypes = $this->matchTypes;
-
-        foreach ($matches as $match) {
-            list($block, $pre, $type, $param, $optional) = $match;
-
-            if (isset($matchTypes[$type])) {
-                $type = $matchTypes[$type];
+                // création du pattern de regex et remplacement du block dans l'url de control de route
+                $pattern = '(?:' . ($pre !== '' ? $pre : null) . '('. ($param !== '' ? "?P<$param>" : null) . $type . ')' . ')';
+    
+                $route = str_replace($block, $pattern, $route);
             }
-            if ($pre === '.') {
-                $pre = '\.';
-            }
-
-            $optional = $optional !== '' ? '?' : null;
-
-            /**
-             * Ajuster la concaténation du pattern pour garder uniquement le necessaire
-            */
-            $pattern = '(?:'
-                    . ($pre !== '' ? $pre : null)
-                    . '('
-                    . ($param !== '' ? "?P<$param>" : null)
-                    . $type
-                    . ')'
-                    . $optional
-                    . ')'
-                    . $optional;
-
-            $route = str_replace($block, $pattern, $route);
         }
-        
+
         return "#^$route$#";
     }
 }
