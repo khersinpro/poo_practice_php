@@ -44,11 +44,16 @@ class Router
     public function match(ServerRequestInterface $request): ?Route
     {
         $uri = $request->getUri()->getPath();
-        $method = $request->getMethod();
+        $requestMethod = $request->getMethod();
         $matchedRoute = null;
 
         foreach ($this->routes as $route) {
             $routePath = $route->getPath();
+
+            // Controlle de la methode
+            if (!in_array($requestMethod, $route->getMethods())) {
+                return null;
+            }
 
             // Controle si route sans params et si les url concorde
             if (!str_contains($routePath, '[') && $routePath === $uri) {
