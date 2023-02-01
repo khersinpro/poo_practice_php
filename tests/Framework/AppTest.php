@@ -2,7 +2,9 @@
 
 namespace Tests\Framework;
 
+use App\Blog\BlogController;
 use Framework\App;
+use Framework\Router;
 use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
 
@@ -11,7 +13,9 @@ class AppTest extends TestCase
 {
     public function testRedirectTrailingSlash()
     {
-        $app = new App();
+        $app = new App([
+            BlogController::class
+        ]);
         $request = new ServerRequest('GET', '/urltest/');
         $response = $app->run($request);
         // assertcontains pour controller le retour d'un array
@@ -22,7 +26,9 @@ class AppTest extends TestCase
 
     public function testBlog()
     {
-        $app = new App();
+        $app = new App([
+            BlogController::class
+        ]);
         $request = new ServerRequest('GET', '/blog');
         $response = $app->run($request);
         // Pour le controle des strings
@@ -32,7 +38,9 @@ class AppTest extends TestCase
 
     public function testError404()
     {
-        $app = new App();
+        $app = new App([
+            BlogController::class
+        ]);
         $request = new ServerRequest('GET', '/aucuneroute');
         $response = $app->run($request);
 

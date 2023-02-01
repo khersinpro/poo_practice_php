@@ -19,7 +19,7 @@ class BlogController
 
     public function index(ServerRequestInterface $request)
     {
-        return 'Bienvenu sur mon blog id';
+        return '<h1>Bienvenue sur le blog</h1>';
     }
 
     public function show(ServerRequestInterface $request)
