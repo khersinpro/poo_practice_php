@@ -59,11 +59,11 @@ class RouterTest extends TestCase
     /**
      * Créer le générateur d'uri si le besoin est réel
      */
-    // public function testGenerateUri()
-    // {
-    //     $this->router->get('/blog', function() {return 'hello';}, 'posts', ["GET"]);
-    //     $this->router->get('/blog/{slug: [a-z0-9\-]+}-{id:\d+}', function() {return 'hello';}, 'post.show', ["GET"]);
-    //     $uri = $this->router->generateUri('post.show', ['slug' => 'mon-article', 'id' => 18]);
-    //     $this->assertEquals('/blog/mon-article-18', $uri);
-    // }
+    public function testGenerateUri()
+    {
+        $this->router->get('/blog', function() {return 'hello';}, 'posts', ["GET"]);
+        $this->router->get('/blog/[slug:slug]/[digit:id]', function() {return 'hello';}, 'post.show', ["GET"]);
+        $uri = $this->router->generateUri('post.show', ['slug' => 'mon-article', 'id' => 18]);
+        $this->assertEquals('/blog/mon-article/18', $uri);
+    }
 }

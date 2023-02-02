@@ -92,7 +92,23 @@ class Router
      */
     public function generateUri(string $name, array $params): ?string
     {
-        return null;
+        foreach($this->routes as $route) {
+            if ($route->getName() === $name) {
+                $url = $route->getPath();
+
+                if (preg_match_all('`(/|\.|)\[([^:\]]*+)(?::([^:\]]*+))?\](\?|)`', $url, $matches, PREG_SET_ORDER)) {
+
+                    foreach ($matches as $matche) {
+                        list($block, $pre, $pattern, $key) = $matche;
+                        $param = $pre . $params[$key] ;
+                        $url = str_replace($block, $param, $url);
+                    }
+                } else {
+                    $url = null;
+                }
+            }
+        }
+        return $url ? $url : null;
     }
 
     /**

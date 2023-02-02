@@ -14,7 +14,7 @@ class BlogController
     public function __construct(Router $router)
     {
         $router->get('/blog', [$this, 'index'], 'blog', ['GET']);
-        $router->get('/blog/[slug:slug]/[digit:id]/[text:text]', [$this, 'show'], 'blog', ['POST', 'GET']);
+        $router->get('/blog/[slug:slug]/[digit:id]/[text:text]', [$this, 'show'], 'blog.show', ['POST', 'GET']);
     }
 
     public function index(ServerRequestInterface $request)
