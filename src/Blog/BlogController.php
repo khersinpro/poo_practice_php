@@ -2,11 +2,15 @@
 
 namespace App\Blog;
 
+use Framework\Module;
 use Framework\Router;
 use Psr\Http\Message\ServerRequestInterface;
 
-class BlogController
+class BlogController extends Module
 {
+
+    const DEFINITIONS = __DIR__.'/config.php';
+
     /**
      * Constructeur qui prend le router en param puis on créer les routes a injecter dans le router
      * @param Router Router de l'application
@@ -25,7 +29,6 @@ class BlogController
     public function show(ServerRequestInterface $request)
     {
         list($slug, $id, $test)= array_values($request->getQueryParams());
-
         return '<h1>Bienvenue sur l\'article '.$slug;
     }
 }
