@@ -24,7 +24,8 @@ class BlogController
 
     public function show(ServerRequestInterface $request)
     {
-        dump($request->getQueryParams());
-        return 'Bienvenu sur mon blog show';
+        list($slug, $id, $test)= array_values($request->getQueryParams());
+
+        return '<h1>Bienvenue sur l\'article '.$slug;
     }
 }

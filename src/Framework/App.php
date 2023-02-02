@@ -52,7 +52,7 @@ class App
         
         if (is_string($reponse)) {
             return new Response(200, [], $reponse);
-        } else if ($reponse instanceof ResponseInterface) {
+        } elseif ($reponse instanceof ResponseInterface) {
             return new Response(200, [], $reponse);
         } else {
             throw new Exception('Find no response !');

@@ -56,9 +56,6 @@ class RouterTest extends TestCase
         $this->assertEquals(null, $route);
     }
 
-    /**
-     * Créer le générateur d'uri si le besoin est réel
-     */
     public function testGenerateUri()
     {
         $this->router->get('/blog', function() {return 'hello';}, 'posts', ["GET"]);

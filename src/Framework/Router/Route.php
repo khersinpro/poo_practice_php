@@ -6,7 +6,7 @@ namespace Framework\Router;
  * Class Route
  * Représente une route qui existante
  */
-class Route 
+class Route
 {
     /**
      * @var string Nom de la route
@@ -33,7 +33,8 @@ class Route
      */
     private string $path;
     
-    public function __construct(string $path, callable $callback, string $name, array $methods) {
+    public function __construct(string $path, callable $callback, string $name, array $methods)
+    {
         $this->name = $name;
         $this->callback = $callback;
         $this->methods = $methods;
@@ -70,7 +71,7 @@ class Route
      
     /**
      * Récupére les types de requetes http autorisée de la route
-     * @return string[] Retourne un tableau de type de requetes http 
+     * @return string[] Retourne un tableau de type de requetes http
      */
     public function getMethods(): array
     {
@@ -94,5 +95,4 @@ class Route
     {
         $this->parameters = $parameters;
     }
-
 }

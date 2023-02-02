@@ -10,7 +10,7 @@ use Psr\Http\Message\ServerRequestInterface;
  * Class Router
  * Permet de matcher les objets de type Route
  */
-class Router 
+class Router
 {
     /**
      * @var Route[] Tbaleau des routes de l'application
@@ -58,16 +58,15 @@ class Router
             // Controle si route sans params et si les url concorde
             if (!str_contains($routePath, '[') && $routePath === $uri) {
                 return $matchedRoute = $route;
-            } 
+            }
             
             // Route complexe avec params => Controle si l'url match avec la regex de la route
             if (str_contains($routePath, '[')) {
                 $regex = $this->routeRegexGenerator($routePath);
 
                 if (preg_match($regex, $request->getUri()->getPath(), $matches) === 1) {
-
                     // Récupération des params de la route
-                    $routeParams =  array_reduce(array_keys($matches), function($routeParams, $key ) use ($matches) {
+                    $routeParams = array_reduce(array_keys($matches), function ($routeParams, $key) use ($matches) {
                         if (is_string($key)) {
                             $routeParams[$key] = $matches[$key];
                         }
@@ -85,19 +84,18 @@ class Router
     }
 
     /**
-     * Création si besoin
+     * Génére l'url d'une route avec ses params
      * @param string $name Nom de la route
      * @param array $params Tableau de params
-     * @return string|null retourne l'url générer ou null 
+     * @return string|null retourne l'url générer ou null
      */
     public function generateUri(string $name, array $params): ?string
     {
-        foreach($this->routes as $route) {
+        foreach ($this->routes as $route) {
             if ($route->getName() === $name) {
                 $url = $route->getPath();
 
                 if (preg_match_all('`(/|\.|)\[([^:\]]*+)(?::([^:\]]*+))?\](\?|)`', $url, $matches, PREG_SET_ORDER)) {
-
                     foreach ($matches as $matche) {
                         list($block, $pre, $pattern, $key) = $matche;
                         $param = $pre . $params[$key] ;
@@ -118,7 +116,7 @@ class Router
      */
     protected function routeRegexGenerator(string $route): string
     {
-        if ( preg_match_all('`(/|\.|)\[([^:\]]*+)(?::([^:\]]*+))?\](\?|)`', $route, $matches, PREG_SET_ORDER)) {
+        if (preg_match_all('`(/|\.|)\[([^:\]]*+)(?::([^:\]]*+))?\](\?|)`', $route, $matches, PREG_SET_ORDER)) {
             $matchTypes = $this->matchTypes;
     
             foreach ($matches as $match) {
