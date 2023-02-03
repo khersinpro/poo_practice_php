@@ -1,12 +1,12 @@
 <?php
 
+use Framework\Renderer\TwigRenderer;
 use Framework\Router;
-use Framework\Router\Route;
 use function DI\autowire;
+use function DI\get;
 
 return  [
-    // 'router' => function(){
-    //     return new Router; },
-    'key1' => 'abcds',
-    Router::class => autowire()
+    'default.template.path' => __DIR__.'/../views',
+    Router::class => autowire(),
+    TwigRenderer::class => autowire()->constructor(get('default.template.path'))
 ];

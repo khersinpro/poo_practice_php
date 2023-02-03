@@ -21,6 +21,7 @@
         "guzzlehttp/psr7": "^2.4",
         "http-interop/response-sender": "^1.0",
         "symfony/var-dumper": "^6.2",
-        "php-di/php-di": "^7.0"
+        "php-di/php-di": "^7.0",
+        "twig/twig": "^3.5"
     }
 }

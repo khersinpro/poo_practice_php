@@ -27,6 +27,8 @@ class App
     public function __construct(ContainerInterface $container, array $modules = []) {
         $this->container = $container;
 
+        // Instancier les $modules avec le container d'injection permet d'injecter directement le router ect...
+        // Si les dépence sont initié dans le fichier de config du container d'injection
         foreach ($modules as $module) {
             $this->modules[] = $this->container->get($module);
         }
@@ -42,7 +44,7 @@ class App
             ]);
         }
 
-        $route = $this->container->get(Router)->match($request);
+        $route = $this->container->get(Router::class)->match($request);
 
         if (!$route) {
             return new Response(404, [], '<h1>Erreur 404</h1>');

@@ -3,6 +3,9 @@
 use App\Blog\BlogController;
 use DI\ContainerBuilder;
 use Framework\App;
+use Framework\Renderer\Test;
+use Framework\Renderer\TwigRenderer;
+use Framework\Router;
 use GuzzleHttp\Psr7\ServerRequest;
 
 use function Http\Response\send;
@@ -17,7 +20,7 @@ $modules = [
 // Puis si des configs specifique on été ajouté a un module, on les injecte via le foreach
 $builder = new ContainerBuilder();
 $builder->addDefinitions(__DIR__.'/../config/config.php');
-foreach ($moudles as $module) {
+foreach ($modules as $module) {
     if ($module::DEFINITIONS !== null) {
         $builder->addDefinitions($module::DEFINITIONS);
     }
