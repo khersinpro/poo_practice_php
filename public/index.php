@@ -3,9 +3,8 @@
 use App\Blog\BlogController;
 use DI\ContainerBuilder;
 use Framework\App;
-use Framework\Renderer\Test;
-use Framework\Renderer\TwigRenderer;
-use Framework\Router;
+use Framework\Controller\AbstractController;
+use Framework\Controller\ToolsController;
 use GuzzleHttp\Psr7\ServerRequest;
 
 use function Http\Response\send;
@@ -20,6 +19,7 @@ $modules = [
 // Puis si des configs specifique on été ajouté a un module, on les injecte via le foreach
 $builder = new ContainerBuilder();
 $builder->addDefinitions(__DIR__.'/../config/config.php');
+$builder->addDefinitions(AbstractController::getSubscribedServices());
 foreach ($modules as $module) {
     if ($module::DEFINITIONS !== null) {
         $builder->addDefinitions($module::DEFINITIONS);
@@ -27,6 +27,7 @@ foreach ($modules as $module) {
 }
 $container = $builder->build();
 
+//dd($container->get('router'));
 $app = new App($container, $modules);
 
 // Passage de la request via le package guzzlehttp => app return la response
