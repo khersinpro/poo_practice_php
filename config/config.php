@@ -2,7 +2,7 @@
 
 use Framework\Renderer\TwigRenderer;
 use Framework\Renderer\TwigRendererFactory;
-use Framework\Router;
+use Framework\Router\Router;
 use Framework\Router\RouterTwigExtension;
 use Psr\Container\ContainerInterface;
 

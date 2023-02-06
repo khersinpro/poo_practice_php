@@ -24,7 +24,6 @@ class BlogController extends AbstractController
     
     public function index(ServerRequestInterface $request)
     {
-        // dd('ici');
         return $this->render('@blog/index.html.twig', [
             "name" => "Nom d'utilisateur",
         ]);
@@ -33,6 +32,10 @@ class BlogController extends AbstractController
     public function show(ServerRequestInterface $request)
     {
         list($slug, $id, $test)= array_values($request->getQueryParams());
-        return '<h1>Bienvenue sur l\'article '.$slug;
+        
+        return $this->render('@blog/index.html.twig', [
+            'slug'=> $slug,
+            'id' => $id,
+        ]);
     }
 }

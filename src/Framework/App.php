@@ -3,6 +3,7 @@
 namespace Framework;
 
 use Exception;
+use Framework\Router\Router;
 use GuzzleHttp\Psr7\Response;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;

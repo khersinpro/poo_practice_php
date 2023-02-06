@@ -3,7 +3,7 @@
 namespace Framework\Controller;
 
 use Exception;
-use Framework\Router;
+use Framework\Router\Router;
 use Psr\Container\ContainerInterface;
 
 abstract class AbstractController

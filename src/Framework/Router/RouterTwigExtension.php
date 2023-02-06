@@ -2,7 +2,7 @@
 
 namespace Framework\Router;
 
-use Framework\Router;
+use Framework\Router\Router;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
