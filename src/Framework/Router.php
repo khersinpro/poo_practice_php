@@ -3,7 +3,6 @@
 namespace Framework;
 
 use Framework\Router\Route;
-use GuzzleHttp\Psr7\Request;
 use Psr\Http\Message\ServerRequestInterface;
 
 /**
@@ -29,7 +28,8 @@ class Router
     /**
      * @param string $path Uri de la route
      * @param callable $callable Fonction retourner par la route
-     * @param string Nom de la route
+     * @param string $name Nom de la route
+     * @param array $methods Tableau des types de requetes autorisées
      */
     public function get(string $path, callable $callable, string $name, array $methods): void
     {
@@ -94,8 +94,10 @@ class Router
         foreach ($this->routes as $route) {
             if ($route->getName() === $name) {
                 $url = $route->getPath();
-
-                if (preg_match_all('`(/|\.|)\[([^:\]]*+)(?::([^:\]]*+))?\](\?|)`', $url, $matches, PREG_SET_ORDER)) {
+                
+                if (!str_contains($url, '[')) {
+                    return $url;
+                } elseif (preg_match_all('`(/|\.|)\[([^:\]]*+)(?::([^:\]]*+))?\](\?|)`', $url, $matches, PREG_SET_ORDER)) {
                     foreach ($matches as $matche) {
                         list($block, $pre, $pattern, $key) = $matche;
                         $param = $pre . $params[$key] ;
@@ -106,6 +108,7 @@ class Router
                 }
             }
         }
+
         return $url ? $url : null;
     }
 

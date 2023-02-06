@@ -2,33 +2,30 @@
 
 namespace App\Blog;
 
-use Framework\Module;
-use Framework\Renderer\TwigRenderer;
-use Framework\Router;
+use Framework\Controller\AbstractController;
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-class BlogController extends Module
+class BlogController extends AbstractController
 {
     const DEFINITIONS = __DIR__.'/config.php';
 
-    private $renderer;
-
     /**
-     * Constructeur qui prend le router en param puis on créer les routes a injecter dans le router
-     * @param Router Router de l'application
+     * Constructeur qui prend le ContainerInterface afin de configuré l'abstractController qui detiens les outils de bases pour un controller
+     * @param ContainerInterface Container afin d'injecter les methods utile a un controller
      */
-    public function __construct(Router $router, TwigRenderer $renderer)
+    public function __construct(ContainerInterface $container)
     {
-        $this->renderer = $renderer;
-        $this->renderer->addPath(__DIR__.'/templates', 'blog');
-
-        $router->get('/blog', [$this, 'index'], 'blog', ['GET']);
-        $router->get('/blog/[slug:slug]/[digit:id]/[text:text]', [$this, 'show'], 'blog.show', ['POST', 'GET']);
+        parent::__construct($container);
+        $this->addTwigTemplatePath(__DIR__.'/templates', 'blog');
+        $this->addRoute('/blog', [$this, 'index'], 'blog', ['GET']);
+        $this->addRoute('/blog/[slug:slug]/[digit:id]/[text:text]', [$this, 'show'], 'blog.show', ['POST', 'GET']);
     }
-
+    
     public function index(ServerRequestInterface $request)
     {
-        return $this->renderer->render('@blog/index.html.twig', [
+        // dd('ici');
+        return $this->render('@blog/index.html.twig', [
             "name" => "Nom d'utilisateur",
         ]);
     }
