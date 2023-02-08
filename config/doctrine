@@ -1,0 +1,34 @@
+<?php
+
+use Doctrine\DBAL\DriverManager;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\ORMSetup;
+use Doctrine\ORM\Tools\Console\ConsoleRunner;
+use Doctrine\ORM\Tools\Console\EntityManagerProvider\SingleManagerProvider;
+
+require_once __DIR__.'/../vendor/autoload.php';
+
+// Create a simple "default" Doctrine ORM configuration for Attributes
+$config = ORMSetup::createAttributeMetadataConfiguration(
+    paths: [__DIR__.'/../src/Entity'],
+    isDevMode: true,
+);
+
+// configuring the database connection
+$db_connexion = require_once __DIR__.'/db_configuration.php';
+$connection = DriverManager::getConnection($db_connexion, $config);
+
+// obtaining the entity manager
+$entityManager = new EntityManager($connection, $config);
+
+
+ConsoleRunner::run(
+    new SingleManagerProvider($entityManager)
+);
+
+//*** GESTION DES ENTITY SANS L'UTILITAIRE DE BDD (ne pas utiliser) ***/
+// php config/doctrine orm:schema-tool:create
+// php config/doctrine orm:schema-tool:drop --force
+// php config/doctrine orm:schema-tool:update --force --dump-sql => Mettre a jour les Entities en BDD
+// php config/doctrine orm:clear-cache:metadata => clear metadata
+

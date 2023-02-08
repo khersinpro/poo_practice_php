@@ -25,7 +25,8 @@ class App
      * Constructeur qui prend en compte les modules a charger et qui leurs inject en param le router
      * @param string[] $modules Listes de modules a charger
      */
-    public function __construct(ContainerInterface $container, array $modules = []) {
+    public function __construct(ContainerInterface $container, array $modules = [])
+    {
         $this->container = $container;
 
         // Instancier les $modules avec le container d'injection permet d'injecter directement le router ect...

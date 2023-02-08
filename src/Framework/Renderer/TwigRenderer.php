@@ -18,10 +18,10 @@ class TwigRenderer implements RendererInterface
     private $loader;
 
     /**
-     * @param string $path Chemin vers le dossier des templates twig 
+     * @param string $path Chemin vers le dossier des templates twig
      */
     public function __construct(string $path)
-    {   
+    {
         $this->loader = new FilesystemLoader($path);
         $this->twig = new Environment($this->loader, []);
     }
@@ -41,7 +41,7 @@ class TwigRenderer implements RendererInterface
         $this->twig->addGLobal($key, $value);
     }
 
-    function addExtension(mixed $extension)
+    public function addExtension(mixed $extension)
     {
         $this->twig->addExtension($extension);
     }

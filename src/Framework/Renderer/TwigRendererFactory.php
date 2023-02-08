@@ -14,7 +14,7 @@ class TwigRendererFactory
      * @param TwigRenderer $twig
      */
     public function __invoke(ContainerInterface $container, TwigRenderer $twig): TwigRenderer
-    {   
+    {
         foreach ($container->get('twig.extensions') as $extension) {
             $twig->addExtension($extension);
         }

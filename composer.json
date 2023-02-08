@@ -22,6 +22,12 @@
         "http-interop/response-sender": "^1.0",
         "symfony/var-dumper": "^6.2",
         "php-di/php-di": "^7.0",
-        "twig/twig": "^3.5"
+        "twig/twig": "^3.5",
+        "robmorgan/phinx": "^0.13.4",
+        "doctrine/orm": "^2.11.0",
+        "doctrine/dbal": "^3.2",
+        "symfony/cache": "^5.4",
+        "doctrine/migrations": "^3.5",
+        "vlucas/phpdotenv": "*"
     }
 }

@@ -16,10 +16,10 @@ abstract class AbstractController
     /**
      * Configuration pour la dependency injection du module
      */
-    // const DEFINITIONS = __DIR__.'/config.php'?? null;
+    // const DEFINITIONS = __CLASS__.'/config.php';
 
     /**
-     * @param ContainerInterface 
+     * @param ContainerInterface
      */
     public function __construct(ContainerInterface $container)
     {
@@ -42,7 +42,7 @@ abstract class AbstractController
     }
 
     /**
-     * Rendre une vue twig depuis un controller 
+     * Rendre une vue twig depuis un controller
      * @param string $view Vue a retourner
      * @param array $params Tableau de params a passer a la vue
      */
@@ -64,7 +64,4 @@ abstract class AbstractController
         }
         $this->container->get('twig')->addPath($templateDirectory, $namespace);
     }
-
-
-
 }
