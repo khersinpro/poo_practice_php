@@ -1,5 +1,6 @@
 <?php
 
+use Doctrine\ORM\EntityManagerInterface;
 use Framework\Renderer\TwigRenderer;
 use Framework\Renderer\TwigRendererFactory;
 use Framework\Router\Router;
@@ -18,5 +19,6 @@ return  [
     Router::class => autowire(),
     TwigRenderer::class => autowire()->constructor(get('default.template.path')),
     'twig' => factory(TwigRendererFactory::class),
-    ContainerInterface::class => autowire()
+    ContainerInterface::class => autowire(),
+    EntityManagerInterface::class => function(){ return require __DIR__.'/entity_manager.php' ; }
 ];

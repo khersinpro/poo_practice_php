@@ -2,6 +2,8 @@
 
 namespace App\Blog;
 
+use App\Repository\UserRepository;
+use Doctrine\ORM\EntityManager;
 use Framework\Controller\AbstractController;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -24,6 +26,9 @@ class BlogController extends AbstractController
     
     public function index(ServerRequestInterface $request)
     {
+        $repo = new UserRepository($this->getEntityManager());
+
+        
         return $this->render('@blog/index.html.twig', [
             "name" => "Nom d'utilisateur",
         ]);

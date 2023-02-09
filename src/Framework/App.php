@@ -2,6 +2,7 @@
 
 namespace Framework;
 
+
 use Exception;
 use Framework\Router\Router;
 use GuzzleHttp\Psr7\Response;
@@ -53,7 +54,8 @@ class App
         }
 
         $request = $request->withQueryParams($route->getParams());
-        $reponse = call_user_func($route->getCallback(), $request);
+
+        $reponse = $this->container->call($route->getCallback(), [$request]);
         
         if (is_string($reponse)) {
             return new Response(200, [], $reponse);

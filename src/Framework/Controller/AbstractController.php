@@ -2,7 +2,10 @@
 
 namespace Framework\Controller;
 
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Exception;
+use Framework\Database\EntityManagerFactory;
 use Framework\Router\Router;
 use Psr\Container\ContainerInterface;
 
@@ -63,5 +66,17 @@ abstract class AbstractController
             throw new Exception('La fonction addTwigTemplate ne contient pas l\'éxtension nécessaire à son fonctionnement.');
         }
         $this->container->get('twig')->addPath($templateDirectory, $namespace);
+    }
+
+    /**
+     * Récupération de l'entityManager
+     * @return EntityManagerInterface
+     */
+    protected function getEntityManager(): EntityManagerInterface
+    {
+        if(!$this->container->has(EntityManagerInterface::class)) {
+            throw new Exception('La fonction getEntityManager ne contient pas l\'éxtension nécessaire a son bon fonctionnement.');
+        }
+        return $this->container->get(EntityManagerInterface::class);
     }
 }
