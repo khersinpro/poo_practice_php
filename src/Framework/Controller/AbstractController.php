@@ -2,10 +2,9 @@
 
 namespace Framework\Controller;
 
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Exception;
-use Framework\Database\EntityManagerFactory;
+use Framework\Renderer\TwigRenderer;
 use Framework\Router\Router;
 use Psr\Container\ContainerInterface;
 
@@ -51,10 +50,10 @@ abstract class AbstractController
      */
     protected function render(string $view, array $params = []): mixed
     {
-        if (!$this->container->has('twig')) {
+        if (!$this->container->has(TwigRenderer::class)) {
             throw new Exception('La fonction render ne contient pas l\'éxtension nécessaire à son fonctionnement.');
         }
-        return $this->container->get('twig')->render($view, $params);
+        return $this->container->get(TwigRenderer::class)->render($view, $params);
     }
 
     /**
@@ -62,10 +61,10 @@ abstract class AbstractController
      */
     protected function addTwigTemplatePath($templateDirectory, $namespace)
     {
-        if (!$this->container->has('twig')) {
+        if (!$this->container->has(TwigRenderer::class)) {
             throw new Exception('La fonction addTwigTemplate ne contient pas l\'éxtension nécessaire à son fonctionnement.');
         }
-        $this->container->get('twig')->addPath($templateDirectory, $namespace);
+        $this->container->get(TwigRenderer::class)->addPath($templateDirectory, $namespace);
     }
 
     /**
@@ -74,7 +73,7 @@ abstract class AbstractController
      */
     protected function getEntityManager(): EntityManagerInterface
     {
-        if(!$this->container->has(EntityManagerInterface::class)) {
+        if (!$this->container->has(EntityManagerInterface::class)) {
             throw new Exception('La fonction getEntityManager ne contient pas l\'éxtension nécessaire a son bon fonctionnement.');
         }
         return $this->container->get(EntityManagerInterface::class);

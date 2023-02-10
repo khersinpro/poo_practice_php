@@ -2,7 +2,7 @@
 
 namespace Tests\Framework;
 
-use Framework\Router;
+use Framework\Router\Router;
 use GuzzleHttp\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
 
@@ -23,7 +23,10 @@ class RouterTest extends TestCase
     {
         $request = new ServerRequest('GET', '/blog');
         // Création de la route => uri, callable, nom de route
-        $this->router->get('/blog', function() {return 'hello';}, 'blog', ["GET"]);
+        $this->router->get('/blog', function() { 
+            return 'hello';
+            }, 'blog', ["GET"]
+        );
         $route = $this->router->match($request);
         $this->assertEquals('blog', $route->getName());
         $this->assertEquals('hello', call_user_func_array($route->getCallback(), [$request]));
@@ -43,10 +46,11 @@ class RouterTest extends TestCase
         $request = new ServerRequest('GET', '/blog/mon-slug/12');
         // Route qui ne doit pas matcher
         $this->router->get('/blog', function() {return 'hello';}, 'posts', ["GET"]);
-
         // Création de la route qui doit matcher => uri + slug lettres et chiffres + id chiffres, callable, nom de route
         $this->router->get('/blog/[slug:slug]/[digit:id]', function() {return 'hello';}, 'post.show', ["GET"]);
+
         $route = $this->router->match($request);
+        
         $this->assertEquals('post.show', $route->getName());
         $this->assertEquals('hello', call_user_func_array($route->getCallback(), [$request]));
         $this->assertEquals(['slug' => 'mon-slug', 'id' => '12' ], $route->getParams());

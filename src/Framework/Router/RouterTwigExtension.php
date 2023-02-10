@@ -18,6 +18,9 @@ class RouterTwigExtension extends AbstractExtension
         $this->router = $router;
     }
 
+    /**
+     * Ajout des fonction directement dans les vues
+     */
     public function getFunctions()
     {
         return [
@@ -25,6 +28,12 @@ class RouterTwigExtension extends AbstractExtension
         ];
     }
 
+    /**
+     * Génere la path d'une route
+     * @param string $routename Nom de la route
+     * @param array $params Params de la route
+     * @return string|null
+     */
     public function generatePath(string $routeName, array $params = []): ?string
     {
         if ($this->router instanceof Router) {

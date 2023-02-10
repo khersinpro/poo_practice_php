@@ -1,12 +1,9 @@
 <?php
 
-namespace App\Post;
+namespace App\Entity;
 
-use App\PostRepository\PostRepository;
-use Doctrine\DBAL\Types\Type;
-use Doctrine\DBAL\Types\Types;
+use App\Repository\PostRepository;
 use Doctrine\ORM\Mapping as ORM;
-
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 class Post

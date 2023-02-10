@@ -1,0 +1,14 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <main>
+        <div class="container text-center pt-5">
+            <h1>Affichage d'un article</h1>
+            <ul class="list-group my-3">
+                <li class="list-group-item">params => {{ slug }}</li>
+                <li class="list-group-item">params => {{ id }}</li>
+                <li class="list-group-item">params => {{ text }}</li>
+            </ul>
+        </div>
+    </main>
+{% endblock %}

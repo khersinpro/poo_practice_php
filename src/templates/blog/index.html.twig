@@ -1,0 +1,10 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    <main>
+        <div class="container text-center pt-5">
+            <h1>{{ title }}</h1>
+            <a href="{{ path('blog.show', {slug: 'mon-slug', id: 12, text: 'montext' }) }}" class="btn btn-primary my-3">Lien vers une route complexe</a>
+        </div>
+    </main>
+{% endblock %}

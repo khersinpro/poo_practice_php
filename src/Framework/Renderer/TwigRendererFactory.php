@@ -13,8 +13,10 @@ class TwigRendererFactory
      * @param ContainerInterface $container
      * @param TwigRenderer $twig
      */
-    public function __invoke(ContainerInterface $container, TwigRenderer $twig): TwigRenderer
+    public function __invoke(ContainerInterface $container): TwigRenderer
     {
+        $twig = new TwigRenderer($container->get('default.template.path'));
+
         foreach ($container->get('twig.extensions') as $extension) {
             $twig->addExtension($extension);
         }

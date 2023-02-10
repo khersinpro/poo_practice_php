@@ -2,29 +2,29 @@
 
 namespace Tests\Framework;
 
-use Framework\Renderer;
+use Framework\DependencyInjection\ContainerFactory;
+use Framework\Renderer\TwigRenderer;
 use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
 
 class RendererTest extends TestCase
 {
     private $renderer;
+    /**
+     * @var ContainerInterface
+     */
+    private $container;
 
     public function setUp(): void
     {
-        $this->renderer = new Renderer();
+        $this->container = call_user_func(new ContainerFactory());
+        $this->renderer = $this->container->get(TwigRenderer::class);
     }
 
     public function testRenderRightPath()
     {
-        $this->renderer->addPath('blog', __DIR__.'/views');
-        $content = $this->renderer->render('@blog/demo');
-        $this->assertEquals('Page de demo', $content);
-    }
-
-    public function testRenderDefaultPath()
-    {
-        $this->renderer->addPath(__DIR__.'/views');
-        $content = $this->renderer->render('demo');
+        $this->renderer->addPath(__DIR__.'/views', 'blog');
+        $content = $this->renderer->render('@blog/demo.html.twig');
         $this->assertEquals('Page de demo', $content);
     }
 }

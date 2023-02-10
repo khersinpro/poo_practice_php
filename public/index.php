@@ -1,6 +1,6 @@
 <?php
 
-use App\Blog\BlogController;
+use App\Controller\BlogController;
 
 use Framework\App;
 use Framework\DependencyInjection\ContainerFactory;
@@ -13,7 +13,7 @@ $modules = [
     BlogController::class
 ];
 
-$container = call_user_func(new ContainerFactory(), $modules) ;
+$container = call_user_func(new ContainerFactory());
 $app = new App($container, $modules);
 
 // Passage de la request via le package guzzlehttp => app return la response

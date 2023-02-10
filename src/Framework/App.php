@@ -2,7 +2,7 @@
 
 namespace Framework;
 
-
+use DI\Container;
 use Exception;
 use Framework\Router\Router;
 use GuzzleHttp\Psr7\Response;
@@ -18,7 +18,7 @@ class App
     private array $modules = [];
 
     /**
-     * @var ContainerInterface interface de l'application
+     * @var Container de l'application
      */
     private $container;
 

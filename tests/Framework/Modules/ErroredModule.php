@@ -2,7 +2,7 @@
 
 namespace Tests\Framework\Modules;
 
-use Framework\Router;
+use Framework\Router\Router;
 use stdClass;
 
 class ErroredModule
